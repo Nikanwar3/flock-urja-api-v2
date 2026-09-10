@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: urja-meter-ops-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: URJA_PORTAL_BASE_URL
+        value: https://urja-ops.flockenergy.tech
+      - key: URJA_PORTAL_EMAIL
+        sync: false
+      - key: URJA_PORTAL_PASSWORD
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.13.5

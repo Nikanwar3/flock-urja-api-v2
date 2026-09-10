@@ -63,6 +63,16 @@ Then:
 - `http://localhost:8000/redoc` — Redoc
 - `http://localhost:8000/healthz` — service + upstream portal health
 
+### Deploying it somewhere
+
+`render.yaml` is included as a one-click blueprint for [Render](https://render.com)'s
+free tier: **New → Blueprint**, point it at this repo, fill in
+`URJA_PORTAL_EMAIL` / `URJA_PORTAL_PASSWORD` when prompted (they're marked
+`sync: false` in the blueprint so they aren't committed in plaintext), and
+deploy. Free-tier services spin down when idle, so the first request after
+a quiet period will be slow (cold start) — that's a hosting-tier
+characteristic, not something the service itself does.
+
 To run the tests (none of them hit the live portal — the adapter's auth
 flow is tested against a mocked HTTP layer with `respx`):
 
