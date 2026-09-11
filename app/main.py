@@ -9,7 +9,7 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 
 from app.config import get_settings
 from app.portal_errors import PortalAuthError, PortalUnavailableError
@@ -43,6 +43,13 @@ app.include_router(meters.router)
 app.include_router(transformers.router)
 app.include_router(hierarchy.router)
 app.include_router(health.router)
+
+
+@app.get("/", include_in_schema=False)
+async def root() -> RedirectResponse:
+    """Anyone hitting the bare URL is almost certainly a human looking for
+    the docs, not an API client — a 404 there just looks broken."""
+    return RedirectResponse(url="/docs")
 
 
 @app.exception_handler(PortalUnavailableError)
