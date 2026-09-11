@@ -8,6 +8,7 @@ JSON endpoints, normalises the results, and re-exposes them as a small,
 sensible, OpenAPI-documented REST API that any engineer or program can
 consume without ever touching the portal.
 
+- **Live deployment** → https://flock-urja-api-v2.onrender.com ([`/docs`](https://flock-urja-api-v2.onrender.com/docs), [`/healthz`](https://flock-urja-api-v2.onrender.com/healthz)) — free-tier Render instance, so the first request after a quiet period will be slow (cold start).
 - **How the portal itself works** (auth, endpoints, quirks) → [`PROTOCOL.md`](PROTOCOL.md) — read this first if you're curious how any of this was figured out.
 - **This API's contract** → [`openapi.json`](openapi.json), or run the service and open `/docs` (Swagger UI) / `/redoc`.
 - **Reflection questions** → [`REFLECTION.md`](REFLECTION.md).
@@ -65,13 +66,15 @@ Then:
 
 ### Deploying it somewhere
 
-`render.yaml` is included as a one-click blueprint for [Render](https://render.com)'s
-free tier: **New → Blueprint**, point it at this repo, fill in
-`URJA_PORTAL_EMAIL` / `URJA_PORTAL_PASSWORD` when prompted (they're marked
-`sync: false` in the blueprint so they aren't committed in plaintext), and
-deploy. Free-tier services spin down when idle, so the first request after
-a quiet period will be slow (cold start) — that's a hosting-tier
-characteristic, not something the service itself does.
+Already deployed on [Render](https://render.com)'s free tier at
+https://flock-urja-api-v2.onrender.com — `render.yaml` is included in the
+repo as the blueprint used for it. To redeploy your own copy: **New →
+Blueprint**, point it at this repo, fill in `URJA_PORTAL_EMAIL` /
+`URJA_PORTAL_PASSWORD` when prompted (they're marked `sync: false` in the
+blueprint so they aren't committed in plaintext), and deploy. Free-tier
+services spin down when idle, so the first request after a quiet period
+will be slow (cold start) — that's a hosting-tier characteristic, not
+something the service itself does.
 
 To run the tests (none of them hit the live portal — the adapter's auth
 flow is tested against a mocked HTTP layer with `respx`):
