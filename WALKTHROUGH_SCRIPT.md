@@ -64,15 +64,35 @@ Walk top-down, one sentence of "why" per file, not a full code read:
 - `app/cache.py` / `app/service.py` — TTL caches, briefly explain the
   freshness trade-off (staleness bounded by TTL, not push-based).
 
-## 5. Live demo (2 min) — hit the running service (local or deployed URL)
+## 5. Live demo (2-3 min) — use the deployed instance, not localhost
 
-- `GET /healthz` — point out portal reachability + session state + cache
-  ages.
-- `GET /api/v1/meters?install_status=Faulty&phase_type=three&zone=Z-01` —
-  "this exact filter combination isn't possible in the portal's own UI."
-- `GET /api/v1/meters/near?lat=...&lng=...` — "the portal has no spatial
+Open **https://flock-urja-api-v2.onrender.com/docs** — say out loud that
+this is a live deployment (Render free tier), not just something running
+on your laptop, so a reviewer can hit it directly too. Mention the cold
+start caveat if it's slow to load: "free tier spins down when idle, this
+is a hosting characteristic not something the service does."
+
+In the Swagger UI, actually click **"Try it out"** and execute each of
+these live (don't just read the schema — show real responses coming back
+from the real portal):
+
+- `GET /healthz` — point out `portal_reachable`, `session_active`, and the
+  cache-age fields. "This tells an operator how stale a response might be,
+  and whether our session to the portal is currently alive."
+- `GET /api/v1/meters` with `install_status=Faulty`, `phase_type=three`,
+  `zone=Z-01` filled in — "this exact filter combination isn't possible in
+  the portal's own UI, which only has one free-text search box."
+- `GET /api/v1/meters/{meter_id}/consumption` on a real meter ID (e.g.
+  `J100001`) — point at the `summary.resolution` field and explain why it's
+  inferred rather than fixed.
+- `GET /api/v1/hierarchy` — scroll to `data_quality_issues` and explain
+  what it's flagging.
+- `GET /api/v1/meters/near` with a lat/lng — "the portal has no spatial
   query at all."
-- Open `/docs` and show the OpenAPI schema is real, not hand-typed.
+- Scroll to the top of `/docs` briefly and note the schema itself came
+  from FastAPI reading the Pydantic models/route signatures — it's not
+  hand-typed, so it can't drift out of sync with the actual code the way a
+  manually maintained spec can.
 
 ## 6. Wrap up (1 min)
 
@@ -91,6 +111,9 @@ Walk top-down, one sentence of "why" per file, not a full code read:
 
 - [ ] Portal logged in, DevTools Network tab open, "Preserve log" on
 - [ ] Editor open to: `PROTOCOL.md`, `app/portal_client.py`, `app/index.py`, `app/consumption.py`
-- [ ] Service running locally (`uvicorn app.main:app --reload`) with `/docs` open in a tab
-- [ ] A terminal with `curl` ready for the 2-3 sample requests in README
+- [ ] A browser tab on **https://flock-urja-api-v2.onrender.com/docs** —
+      load it once *before* recording so the free-tier cold start doesn't
+      eat a minute of dead air on camera
 - [ ] `REFLECTION.md` open for the wrap-up section
+- [ ] GitHub repo open too, so you can point at file structure directly
+      instead of only the local editor
