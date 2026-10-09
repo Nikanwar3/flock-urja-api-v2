@@ -49,10 +49,10 @@ loaders would need to change.
 
 ## Running it
 
-Requires Python 3.11+.
+Requires Python 3.11+ (deployed and tested on 3.13.5, pinned in `render.yaml`).
 
 ```bash
-git clone <this repo> && cd flock-urja-api
+git clone https://github.com/Nikanwar3/flock-urja-api-v2.git && cd flock-urja-api-v2
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env   # defaults already match the assignment's credentials

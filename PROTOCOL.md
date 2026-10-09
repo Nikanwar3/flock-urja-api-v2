@@ -6,6 +6,12 @@ session (DevTools Network tab + reading the shipped JS bundles — no probing
 beyond what a real user's browser does). Everything here is read-only
 reconnaissance of an account I was given access to.
 
+The raw capture behind this write-up (saved HTML, request/response headers,
+JS bundles, HMAC sign-string workings) lived in `recon/` locally but is
+gitignored rather than committed — one of those captures is a live
+`better-auth` session cookie, which shouldn't end up in a public repo. This
+document is the full write-up of what's in there.
+
 ## 0. The stack, at a glance
 
 The portal is a **SvelteKit** app (you can tell from the `__sveltekit_*`

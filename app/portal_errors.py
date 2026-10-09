@@ -18,9 +18,3 @@ class MeterNotFoundError(PortalError):
     def __init__(self, meter_id: str):
         self.meter_id = meter_id
         super().__init__(f"Meter not found: {meter_id}")
-
-
-class TransformerNotFoundError(PortalError):
-    def __init__(self, code: str):
-        self.code = code
-        super().__init__(f"Transformer not found: {code}")
